@@ -22,37 +22,61 @@ const moveCar = () => {
   }
 }
 
-let randomY;
+/*let randomY;
 let intervalId;
 const spawnEnemy = () => {
     randomY = Math.floor(Math.random() * ((370 - 62 + 1)+62));
     ctx.drawImage(enemy, randomY, 0, enemyWidth, enemyHeight);
-  }
+  }*/
 
-  const spawnTimer = () => {
+  /*const spawnTimer = (spawnY) => {              
     if (!intervalId) {
-      intervalId = setInterval(spawnEnemy,3000)
+      intervalId = setInterval(spawnEnemy(spawnY),3000)
+    } else {
+      clearInterval(intervalId);
+      intervalId = null;
     }
-  }
+  }*/
 
 
 
-const stopSpawning = () => {
+/*const stopSpawning = () => {      needs fixes
   clearInterval(intervalId);
   intervalId = null;
+}*/
+let enemyX = 0;
+let enemySpeed = 5
+const spawn = (enemyX) => {
+  ctx.drawImage(enemy, canvas.width /2 , enemyX, enemyWidth, enemyHeight);
 }
+
+
+const moveEnemy = () => {
+  if (enemyX <= 700) {
+    enemyX += enemySpeed
+  } else if (enemyX >= 700) {
+    let randomY;
+    randomY = Math.floor(Math.random() * ((370 - 62 + 1)+62));
+    spawn(enemyX);
+  }
+}
+
+
+
 
 const animate = () => {
   ctx.drawImage(road, 0, 0, canvas.width, canvas.height)
   ctx.drawImage(car, carY, 500, 70, 130)
   moveCar();
-  spawnTimer();
+  spawn(enemyX);
+  moveEnemy();
   let gameId = 0;
   if (isGameOver) {
     cancelAnimationFrame(gameId)
   } else {
     gameId = requestAnimationFrame(animate);
   }
+  
 }
 
 function startGame() {
